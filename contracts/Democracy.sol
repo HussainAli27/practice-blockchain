@@ -40,3 +40,7 @@ contract Destructable {
     
 
 }
+
+contract Democracy is Destructable{
+
+}
