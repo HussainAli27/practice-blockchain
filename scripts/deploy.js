@@ -2,11 +2,12 @@ const hre = require("hardhat");
 
 async function main() {
   // Get the contract factory
-  const MyContractFactory = await hre.ethers.getContractFactory("Faucet");
+  const MyContractFactory = await hre.ethers.getContractFactory("Democracy");
 
   // Get a signer (first account by default)
   const [signer] = await hre.ethers.getSigners();
-
+  
+//console,log(signer);
   // Deploy the contract
   const myContract = await MyContractFactory.connect(signer).deploy();
 

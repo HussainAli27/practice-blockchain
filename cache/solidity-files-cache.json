@@ -1,10 +1,10 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "C:\\Users\\Hp\\Documents\\my-solidity-project\\contracts\\SimpleStorage.sol": {
-      "lastModificationDate": 1738082782833,
-      "contentHash": "2ba269b58e4f3b12f3d6ad871e00114d",
-      "sourceName": "contracts/SimpleStorage.sol",
+    "D:\\practice-blockchain\\contracts\\Democracy.sol": {
+      "lastModificationDate": 1739044972719,
+      "contentHash": "60cabc316825b33f73840677e11ffd4a",
+      "sourceName": "contracts/Democracy.sol",
       "solcConfig": {
         "version": "0.8.28",
         "settings": {
@@ -34,11 +34,12 @@
         "^0.8.0"
       ],
       "artifacts": [
-        "SimpleStorage"
+        "Democracy",
+        "Destructable"
       ]
     },
-    "C:\\Users\\Hp\\Documents\\my-solidity-project\\contracts\\Faucet.sol": {
-      "lastModificationDate": 1738169556256,
+    "D:\\practice-blockchain\\contracts\\Faucet.sol": {
+      "lastModificationDate": 1738953811006,
       "contentHash": "eb56744fc6bb68b4e80eada90483bcf6",
       "sourceName": "contracts/Faucet.sol",
       "solcConfig": {
@@ -71,6 +72,42 @@
       ],
       "artifacts": [
         "Faucet"
+      ]
+    },
+    "D:\\practice-blockchain\\contracts\\SimpleStorage.sol": {
+      "lastModificationDate": 1738953811006,
+      "contentHash": "729acfac6846f6c1147afe1603e3af24",
+      "sourceName": "contracts/SimpleStorage.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "SimpleStorage"
       ]
     }
   }

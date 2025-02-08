@@ -14,6 +14,14 @@ import * as Contracts from ".";
 declare module "hardhat/types/runtime" {
   interface HardhatEthersHelpers extends HardhatEthersHelpersBase {
     getContractFactory(
+      name: "Democracy",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Democracy__factory>;
+    getContractFactory(
+      name: "Destructable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Destructable__factory>;
+    getContractFactory(
       name: "Faucet",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Faucet__factory>;
@@ -23,6 +31,16 @@ declare module "hardhat/types/runtime" {
     ): Promise<Contracts.SimpleStorage__factory>;
 
     getContractAt(
+      name: "Democracy",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Democracy>;
+    getContractAt(
+      name: "Destructable",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Destructable>;
+    getContractAt(
       name: "Faucet",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
@@ -34,6 +52,14 @@ declare module "hardhat/types/runtime" {
     ): Promise<Contracts.SimpleStorage>;
 
     deployContract(
+      name: "Democracy",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Democracy>;
+    deployContract(
+      name: "Destructable",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Destructable>;
+    deployContract(
       name: "Faucet",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.Faucet>;
@@ -42,6 +68,16 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.SimpleStorage>;
 
+    deployContract(
+      name: "Democracy",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Democracy>;
+    deployContract(
+      name: "Destructable",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Destructable>;
     deployContract(
       name: "Faucet",
       args: any[],
