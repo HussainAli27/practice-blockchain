@@ -3,6 +3,7 @@
 /* eslint-disable */
 import type {
   BaseContract,
+  BigNumberish,
   BytesLike,
   FunctionFragment,
   Result,
@@ -22,11 +23,27 @@ import type {
   TypedContractMethod,
 } from "../common";
 
+export declare namespace Democracy {
+  export type CandidateStruct = {
+    name: string;
+    candidateAddress: AddressLike;
+    votes: BigNumberish;
+  };
+
+  export type CandidateStructOutput = [
+    name: string,
+    candidateAddress: string,
+    votes: bigint
+  ] & { name: string; candidateAddress: string; votes: bigint };
+}
+
 export interface DemocracyInterface extends Interface {
   getFunction(
     nameOrSignature:
+      | "candidateList"
       | "candidates"
       | "destroy"
+      | "getCandidates"
       | "hasRegistered"
       | "isDestroyed"
       | "isNameTaken"
@@ -36,10 +53,18 @@ export interface DemocracyInterface extends Interface {
   getEvent(nameOrSignatureOrTopic: "CandidateRegistered"): EventFragment;
 
   encodeFunctionData(
+    functionFragment: "candidateList",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "candidates",
     values: [AddressLike]
   ): string;
   encodeFunctionData(functionFragment: "destroy", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "getCandidates",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "hasRegistered",
     values: [AddressLike]
@@ -54,8 +79,16 @@ export interface DemocracyInterface extends Interface {
     values: [string]
   ): string;
 
+  decodeFunctionResult(
+    functionFragment: "candidateList",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "candidates", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "destroy", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getCandidates",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "hasRegistered",
     data: BytesLike
@@ -130,6 +163,18 @@ export interface Democracy extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
+  candidateList: TypedContractMethod<
+    [arg0: BigNumberish],
+    [
+      [string, string, bigint] & {
+        name: string;
+        candidateAddress: string;
+        votes: bigint;
+      }
+    ],
+    "view"
+  >;
+
   candidates: TypedContractMethod<
     [arg0: AddressLike],
     [
@@ -143,6 +188,12 @@ export interface Democracy extends BaseContract {
   >;
 
   destroy: TypedContractMethod<[], [void], "nonpayable">;
+
+  getCandidates: TypedContractMethod<
+    [],
+    [Democracy.CandidateStructOutput[]],
+    "view"
+  >;
 
   hasRegistered: TypedContractMethod<[arg0: AddressLike], [boolean], "view">;
 
@@ -161,6 +212,19 @@ export interface Democracy extends BaseContract {
   ): T;
 
   getFunction(
+    nameOrSignature: "candidateList"
+  ): TypedContractMethod<
+    [arg0: BigNumberish],
+    [
+      [string, string, bigint] & {
+        name: string;
+        candidateAddress: string;
+        votes: bigint;
+      }
+    ],
+    "view"
+  >;
+  getFunction(
     nameOrSignature: "candidates"
   ): TypedContractMethod<
     [arg0: AddressLike],
@@ -176,6 +240,9 @@ export interface Democracy extends BaseContract {
   getFunction(
     nameOrSignature: "destroy"
   ): TypedContractMethod<[], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "getCandidates"
+  ): TypedContractMethod<[], [Democracy.CandidateStructOutput[]], "view">;
   getFunction(
     nameOrSignature: "hasRegistered"
   ): TypedContractMethod<[arg0: AddressLike], [boolean], "view">;

@@ -37,33 +37,72 @@ contract Destructable {
         isDestroyed = true;
     }
 
-    
-
 }
 
-contract Democracy is Destructable{
+
+interface IERC20 {
+    function transfer(address recipient, uint256 amount) external returns (bool);
+    function balanceOf(address account) external view returns (uint256);
+}
+
+contract Democracy is Destructable {
+    IERC20 public usdt;
+    
     struct Candidate {
         string name;
         address candidateAddress;
         uint256 votes;
+        uint256 fundsReceived;
     }
 
-    mapping(address => bool) public hasRegistered; // Track unique addresses
-    mapping(string => bool) public isNameTaken; // Track unique names
-    mapping(address => Candidate) public candidates; // Store candidate details
+    mapping(address => Candidate) public candidates;
+    mapping(address => bool) public hasVoted;
+    Candidate[] public candidateList;
 
     event CandidateRegistered(string name, address candidateAddress);
+    event Voted(address voter, address candidate);
+    event Funded(address funder, address candidate, uint256 amount);
+
+    constructor(address _usdtAddress) {
+        usdt = IERC20(_usdtAddress); // USDT contract address
+    }
 
     function registerAsCandidate(string memory _name) public {
         require(bytes(_name).length > 0, "Name cannot be empty");
-        require(!hasRegistered[msg.sender], "Address already registered");
-        require(!isNameTaken[_name], "Name already taken");
+        require(candidates[msg.sender].candidateAddress == address(0), "Already registered");
 
-        // Register candidate
-        candidates[msg.sender] = Candidate(_name, msg.sender, 0);
-        hasRegistered[msg.sender] = true;
-        isNameTaken[_name] = true;
+        Candidate memory newCandidate = Candidate(_name, msg.sender, 0, 0);
+        candidates[msg.sender] = newCandidate;
+        candidateList.push(newCandidate);
 
         emit CandidateRegistered(_name, msg.sender);
     }
+
+    function vote(address _candidateAddress) public {
+        require(!hasVoted[msg.sender], "You have already voted");
+        require(candidates[_candidateAddress].candidateAddress != address(0), "Candidate does not exist");
+
+        // Increase vote count
+        candidates[_candidateAddress].votes += 1;
+        hasVoted[msg.sender] = true;
+
+        emit Voted(msg.sender, _candidateAddress);
+    }
+
+    function fundCandidate(address _candidateAddress, uint256 _amount) public {
+        require(candidates[_candidateAddress].candidateAddress != address(0), "Candidate does not exist");
+
+        // Transfer USDT from sender to candidate
+        require(usdt.transfer(_candidateAddress, _amount), "USDT transfer failed");
+
+        // Track funds received
+        candidates[_candidateAddress].fundsReceived += _amount;
+
+        emit Funded(msg.sender, _candidateAddress, _amount);
+    }
+
+    function getCandidates() public view returns (Candidate[] memory) {
+        return candidateList;
+    }
 }
+
